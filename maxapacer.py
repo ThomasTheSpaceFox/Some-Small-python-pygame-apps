@@ -73,10 +73,11 @@ pygame.K_KP9: 9}
 twoplay=0
 playturn=2
 helpme=simplefont.render("pick a number from 0-9. The computer (cyan) will also pick 1.", True, (255, 255, 255), (0, 0, 0))
+helpmep2=simplefont.render("pick a number from 0-9. take turns as prompted.", True, (255, 255, 255), (0, 0, 0))
 helpme2=simplefont.render("The one closest to the 'pacer' (yellow) will get a point.", True, (255, 255, 255), (0, 0, 0))
 helpme3=simplefont.render("Press [n] for new game, [ESC] to quit, or [t] for 2 player.", True, (255, 255, 255), (0, 0, 0))
-p1turn=simplefont.render("It is now player 1's turn.", True, (255, 255, 255), (0, 0, 0))
-p2turn=simplefont.render("It is now player 2's turn.", True, (255, 255, 255), (0, 0, 0))
+p1turn=simplefont.render("It is now player 1's turn. (pink)", True, (255, 255, 255), (0, 0, 0))
+p2turn=simplefont.render("It is now player 2's turn. (cyan)", True, (255, 255, 255), (0, 0, 0))
 turn=1
 game=1
 while progrun:
@@ -84,15 +85,17 @@ while progrun:
 	screensurf.fill((0, 0, 0))
 	if not twoplay:
 		drawfeild(no1, no2, no3, "you: "+str(sp), "tie: "+str(tie), "com: "+str(sc))
+		screensurf.blit(helpme, (0, 170))
 	else:
 		drawfeild(no1, no2, no3, "p1: "+str(sp), "tie: "+str(tie), "p2: "+str(sc))
+		screensurf.blit(helpmep2, (0, 170))
 		if playturn==1:
 			playturn=2
 			screensurf.blit(p2turn, (0, 250))
 		else:
 			playturn=1
 			screensurf.blit(p1turn, (0, 250))
-	screensurf.blit(helpme, (0, 170))
+	
 	screensurf.blit(simplefont.render("Turn #:" + str(turn) + " Game #:" + str(game), True, (255, 255, 255), (0, 0, 0)), (0, 230))
 	screensurf.blit(helpme2, (0, 190))
 	screensurf.blit(helpme3, (0, 210))
