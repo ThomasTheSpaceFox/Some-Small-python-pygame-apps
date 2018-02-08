@@ -53,13 +53,13 @@ class superpathline:
 				self.y-=1
 			#xpos rollover
 			if self.x>self.sx:
-				self.x=0
-			if self.x<0:
+				self.x=-10
+			if self.x<-10:
 				self.x=self.sx
 			#ypos rollover
 			if self.y>self.sy:
-				self.y=0
-			if self.y<0:
+				self.y=-10
+			if self.y<-10:
 				self.y=self.sy
 			pygame.draw.line(screensurf, self.color, (self.x+self.thickness, self.y+self.thickness), (self.x, self.y), 1)
 efflist=[]
