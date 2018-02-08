@@ -4,7 +4,7 @@ import random
 pygame.display.init()
 from random import randint as ri
 from threading import Thread
-screensurf=pygame.display.set_mode((700, 250))
+screensurf=pygame.display.set_mode((700, 270))
 pygame.display.set_caption("Max-a-pacer - 1 player", "Max-a-pacer - 1 player")
 clock=pygame.time.Clock()
 progrun=1
@@ -77,6 +77,8 @@ helpme2=simplefont.render("The one closest to the 'pacer' (yellow) will get a po
 helpme3=simplefont.render("Press [n] for new game, [ESC] to quit, or [t] for 2 player.", True, (255, 255, 255), (0, 0, 0))
 p1turn=simplefont.render("It is now player 1's turn.", True, (255, 255, 255), (0, 0, 0))
 p2turn=simplefont.render("It is now player 2's turn.", True, (255, 255, 255), (0, 0, 0))
+turn=1
+game=1
 while progrun:
 	newgame=0
 	screensurf.fill((0, 0, 0))
@@ -86,11 +88,12 @@ while progrun:
 		drawfeild(no1, no2, no3, "p1: "+str(sp), "tie: "+str(tie), "p2: "+str(sc))
 		if playturn==1:
 			playturn=2
-			screensurf.blit(p2turn, (0, 230))
+			screensurf.blit(p2turn, (0, 250))
 		else:
 			playturn=1
-			screensurf.blit(p1turn, (0, 230))
+			screensurf.blit(p1turn, (0, 250))
 	screensurf.blit(helpme, (0, 170))
+	screensurf.blit(simplefont.render("Turn #:" + str(turn) + " Game #:" + str(game), True, (255, 255, 255), (0, 0, 0)), (0, 230))
 	screensurf.blit(helpme2, (0, 190))
 	screensurf.blit(helpme3, (0, 210))
 	pygame.display.update()
@@ -112,6 +115,8 @@ while progrun:
 					twoplay=0
 					userent=1
 					pygame.display.set_caption("Max-a-pacer - 1 player", "Max-a-pacer - 1 player")
+					turn=1
+					game+=1
 					break
 				if event.key==pygame.K_t:
 					newgame=1
@@ -122,6 +127,8 @@ while progrun:
 					playturn=2
 					userent=1
 					pygame.display.set_caption("Max-a-pacer - 2 player", "Max-a-pacer - 2 player")
+					turn=1
+					game+=1
 					break
 				if event.key==pygame.K_ESCAPE:
 					progrun=0
@@ -150,7 +157,8 @@ while progrun:
 				break
 	if progrun and not newgame and (playturn==2 or twoplay==0) and not timeoutbreak:
 		p1sm=abs(no2-no1)
-		comsm=abs(no3-no1)
+		comsm=abs(no2-no3)
+		turn+=1
 		if p1sm>comsm:
 			sc += 1
 		elif p1sm<comsm:
