@@ -10,13 +10,15 @@ clock=pygame.time.Clock()
 progrun=1
 pygame.font.init()
 simplefont = pygame.font.SysFont(None, 22)
-
+#row render
 def drawdisp(xpos, ypos, placenumber, endcolor, scorestr, play1highlight=0):
 	pn=0
 	xpl=60
 	xwid=40
 	xwid2=20
+	#row loop
 	while pn!=10:
+		#highlight guesses green, unless p1 2player guess is seen and is p2's turn.
 		if play1highlight and playturn==1 and twoplay==1 and pn==placenumber:
 			color=(0, 120, 255)
 		elif pn==placenumber:
@@ -30,7 +32,7 @@ def drawdisp(xpos, ypos, placenumber, endcolor, scorestr, play1highlight=0):
 	pygame.draw.rect(screensurf, endcolor, pygame.Rect(xpos-10, ypos, xwid2, xwid))
 	score=simplefont.render(scorestr, True, (0, 0, 0), (255, 0, 0))
 	screensurf.blit(score, (10+xpos, ypos+10))
-
+#playfield renderer
 def drawfeild(no1, no2, no3, sc1, sc2, sc3):
 	pygame.draw.rect(screensurf, (255, 0, 0), pygame.Rect(0, 0, 700, 160))
 	pygame.draw.rect(screensurf, (0, 120, 0), pygame.Rect(10, 10, 610, 140))
@@ -47,7 +49,7 @@ old3=10
 sp=0
 sc=0
 tie=0
-
+#guess keys
 keysdict={
 pygame.K_0: 0,
 pygame.K_KP0: 0,
@@ -72,7 +74,8 @@ pygame.K_KP9: 9}
 
 twoplay=0
 playturn=2
-helpme=simplefont.render("pick a number from 0-9. The computer (cyan) will also pick 1.", True, (255, 255, 255), (0, 0, 0))
+#help & display text
+helpme=simplefont.render("pick a number from 0-9. The computer (cyan) will also pick one.", True, (255, 255, 255), (0, 0, 0))
 helpmep2=simplefont.render("pick a number from 0-9. take turns as prompted.", True, (255, 255, 255), (0, 0, 0))
 helpme2=simplefont.render("The one closest to the 'pacer' (yellow) will get a point.", True, (255, 255, 255), (0, 0, 0))
 helpme3=simplefont.render("Press [n] for new game, [ESC] to quit, or [t] for 2 player.", True, (255, 255, 255), (0, 0, 0))
@@ -82,6 +85,7 @@ turn=1
 game=1
 while progrun:
 	newgame=0
+	#render
 	screensurf.fill((0, 0, 0))
 	if not twoplay:
 		drawfeild(no1, no2, no3, "you: "+str(sp), "tie: "+str(tie), "com: "+str(sc))
@@ -89,6 +93,7 @@ while progrun:
 	else:
 		drawfeild(no1, no2, no3, "p1: "+str(sp), "tie: "+str(tie), "p2: "+str(sc))
 		screensurf.blit(helpmep2, (0, 170))
+		#turn changer
 		if playturn==1:
 			playturn=2
 			screensurf.blit(p2turn, (0, 250))
@@ -103,7 +108,7 @@ while progrun:
 	userent=0
 	counttrack=60
 	count=0
-	timeoutbreak=0
+	#event loop
 	while not userent:
 		clock.tick(30)
 		for event in pygame.event.get():
@@ -137,6 +142,7 @@ while progrun:
 					progrun=0
 					userent=1
 					break
+				#guess entry
 				for key in keysdict:
 					if event.key==key:
 						if playturn==2 and twoplay==1:
@@ -158,7 +164,8 @@ while progrun:
 				progrun=0
 				userent=1
 				break
-	if progrun and not newgame and (playturn==2 or twoplay==0) and not timeoutbreak:
+	#guess judging
+	if progrun and not newgame and (playturn==2 or twoplay==0):
 		p1sm=abs(no2-no1)
 		comsm=abs(no2-no3)
 		turn+=1
